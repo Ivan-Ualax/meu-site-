@@ -1,0 +1,912 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ivan Ualax | Desenvolvedor Full Stack</title>
+
+    <style>
+        :root{
+            --bg:#020617;
+            --card:#0f172a;
+            --card-2:#111c33;
+            --text:#f8fafc;
+            --muted:#94a3b8;
+            --soft:#cbd5e1;
+            --blue:#38bdf8;
+            --blue-2:#0ea5e9;
+            --blue-3:#2563eb;
+            --line:rgba(148,163,184,.18);
+            --glass:rgba(15,23,42,.72);
+            --shadow:0 24px 80px rgba(0,0,0,.42);
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            min-height:100vh;
+            color:var(--text);
+            background:
+                radial-gradient(circle at 15% 8%, rgba(56,189,248,.24), transparent 28%),
+                radial-gradient(circle at 85% 18%, rgba(37,99,235,.20), transparent 30%),
+                radial-gradient(circle at 50% 100%, rgba(14,165,233,.13), transparent 35%),
+                var(--bg);
+            overflow-x:hidden;
+        }
+
+        body::before{
+            content:"";
+            position:fixed;
+            inset:0;
+            background-image:
+                linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+            background-size:46px 46px;
+            mask-image:linear-gradient(to bottom, black 40%, transparent 95%);
+            pointer-events:none;
+            z-index:0;
+        }
+
+        body::after{
+            content:"";
+            position:fixed;
+            width:460px;
+            height:460px;
+            right:-190px;
+            top:170px;
+            border-radius:50%;
+            background:rgba(56,189,248,.14);
+            filter:blur(95px);
+            pointer-events:none;
+            z-index:0;
+        }
+
+        a{
+            color:inherit;
+        }
+
+        .container{
+            position:relative;
+            z-index:2;
+            width:100%;
+            min-height:100vh;
+            padding:24px 20px 50px;
+        }
+
+        .topbar{
+            max-width:1180px;
+            margin:0 auto 34px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:18px;
+            padding:16px 18px;
+            border:1px solid var(--line);
+            border-radius:26px;
+            background:rgba(2,6,23,.72);
+            backdrop-filter:blur(20px);
+            box-shadow:0 20px 70px rgba(0,0,0,.30);
+        }
+
+        .brand{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            font-weight:900;
+            letter-spacing:.3px;
+        }
+
+        .brand-icon{
+            width:44px;
+            height:44px;
+            border-radius:15px;
+            display:grid;
+            place-items:center;
+            background:linear-gradient(135deg,var(--blue-2),var(--blue-3));
+            box-shadow:0 0 30px rgba(14,165,233,.35);
+            font-size:18px;
+        }
+
+        .brand span{
+            color:var(--blue);
+        }
+
+        .nav-actions{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+            justify-content:flex-end;
+        }
+
+        .nav-link{
+            text-decoration:none;
+            color:var(--soft);
+            font-size:14px;
+            font-weight:700;
+            padding:10px 14px;
+            border-radius:999px;
+            transition:.28s;
+        }
+
+        .nav-link:hover{
+            color:white;
+            background:rgba(56,189,248,.10);
+        }
+
+        .contact-mini{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            padding:10px 14px;
+            border-radius:999px;
+            text-decoration:none;
+            color:white;
+            background:linear-gradient(135deg,rgba(14,165,233,.95),rgba(37,99,235,.95));
+            font-weight:900;
+            font-size:14px;
+            box-shadow:0 12px 35px rgba(14,165,233,.22);
+            transition:.28s;
+        }
+
+        .contact-mini:hover{
+            transform:translateY(-3px);
+            box-shadow:0 16px 45px rgba(14,165,233,.36);
+        }
+
+        .hero{
+            max-width:1180px;
+            margin:0 auto;
+            display:grid;
+            grid-template-columns:1.18fr .82fr;
+            gap:34px;
+            align-items:center;
+            min-height:650px;
+        }
+
+        .hero-content{
+            position:relative;
+        }
+
+        .badge{
+            display:inline-flex;
+            align-items:center;
+            gap:9px;
+            padding:10px 16px;
+            border-radius:999px;
+            background:rgba(56,189,248,.10);
+            border:1px solid rgba(56,189,248,.28);
+            color:#7dd3fc;
+            font-weight:900;
+            font-size:13px;
+            margin-bottom:22px;
+            box-shadow:0 0 30px rgba(56,189,248,.08);
+        }
+
+        .badge::before{
+            content:"";
+            width:9px;
+            height:9px;
+            border-radius:50%;
+            background:#22c55e;
+            box-shadow:0 0 18px #22c55e;
+        }
+
+        h1{
+            font-size:72px;
+            line-height:.98;
+            letter-spacing:-3px;
+            font-weight:900;
+            margin-bottom:22px;
+        }
+
+        h1 span{
+            display:block;
+            background:linear-gradient(135deg,#7dd3fc,#38bdf8,#2563eb);
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
+            text-shadow:0 0 40px rgba(56,189,248,.14);
+        }
+
+        .subtitle{
+            max-width:720px;
+            font-size:18px;
+            color:var(--soft);
+            line-height:1.8;
+            margin-bottom:30px;
+        }
+
+        .buttons{
+            display:flex;
+            gap:14px;
+            flex-wrap:wrap;
+            margin-bottom:30px;
+        }
+
+        .btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:9px;
+            padding:15px 22px;
+            border-radius:16px;
+            text-decoration:none;
+            font-weight:900;
+            transition:.3s;
+        }
+
+        .btn-primary{
+            background:linear-gradient(135deg,var(--blue-2),var(--blue-3));
+            color:white;
+            box-shadow:0 16px 42px rgba(14,165,233,.32);
+        }
+
+        .btn-secondary{
+            background:rgba(15,23,42,.78);
+            color:#bae6fd;
+            border:1px solid rgba(56,189,248,.25);
+            backdrop-filter:blur(14px);
+        }
+
+        .btn:hover{
+            transform:translateY(-4px);
+        }
+
+        .hero-points{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:12px;
+            max-width:720px;
+        }
+
+        .point{
+            padding:16px;
+            border-radius:20px;
+            background:rgba(15,23,42,.62);
+            border:1px solid rgba(148,163,184,.14);
+            backdrop-filter:blur(14px);
+        }
+
+        .point strong{
+            display:block;
+            color:white;
+            font-size:15px;
+            margin-bottom:5px;
+        }
+
+        .point span{
+            color:var(--muted);
+            font-size:13px;
+            line-height:1.45;
+        }
+
+        .profile-card{
+            position:relative;
+            padding:30px;
+            border-radius:34px;
+            background:linear-gradient(160deg,rgba(15,23,42,.88),rgba(2,6,23,.78));
+            border:1px solid rgba(148,163,184,.16);
+            box-shadow:var(--shadow);
+            backdrop-filter:blur(22px);
+            overflow:hidden;
+        }
+
+        .profile-card::before{
+            content:"";
+            position:absolute;
+            inset:-1px;
+            background:linear-gradient(135deg,rgba(56,189,248,.35),transparent 35%,rgba(37,99,235,.18));
+            opacity:.45;
+            z-index:-1;
+        }
+
+        .profile-top{
+            display:flex;
+            align-items:center;
+            gap:18px;
+            margin-bottom:20px;
+        }
+
+        .foto{
+            width:118px;
+            height:118px;
+            border-radius:28px;
+            overflow:hidden;
+            border:3px solid rgba(125,211,252,.78);
+            box-shadow:0 0 42px rgba(56,189,248,.26);
+            flex:none;
+        }
+
+        .foto img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
+
+        .profile-name h2{
+            font-size:30px;
+            margin-bottom:8px;
+            letter-spacing:-1px;
+        }
+
+        .profile-name p{
+            color:#7dd3fc;
+            font-weight:800;
+            font-size:14px;
+        }
+
+        .profile-text{
+            color:var(--soft);
+            line-height:1.75;
+            font-size:15px;
+            margin-bottom:22px;
+        }
+
+        .status{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:11px;
+            margin-bottom:22px;
+        }
+
+        .status div{
+            background:rgba(2,6,23,.68);
+            border:1px solid rgba(148,163,184,.14);
+            border-radius:18px;
+            padding:15px 12px;
+            text-align:center;
+        }
+
+        .status strong{
+            display:block;
+            color:#7dd3fc;
+            font-size:22px;
+            margin-bottom:4px;
+        }
+
+        .status span{
+            color:var(--muted);
+            font-size:12px;
+            font-weight:700;
+        }
+
+        .contact-card{
+            display:grid;
+            gap:10px;
+        }
+
+        .contact-card a{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
+            padding:13px 15px;
+            border-radius:16px;
+            color:var(--soft);
+            text-decoration:none;
+            background:rgba(15,23,42,.75);
+            border:1px solid rgba(148,163,184,.14);
+            transition:.28s;
+            font-weight:800;
+            font-size:14px;
+        }
+
+        .contact-card a:hover{
+            color:white;
+            border-color:rgba(56,189,248,.45);
+            background:rgba(56,189,248,.10);
+            transform:translateX(4px);
+        }
+
+        .section{
+            max-width:1180px;
+            margin:62px auto 0;
+        }
+
+        .section-head{
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:25px;
+            margin-bottom:26px;
+        }
+
+        .section-title{
+            font-size:42px;
+            line-height:1.05;
+            letter-spacing:-1.6px;
+            font-weight:900;
+        }
+
+        .section-title span{
+            color:var(--blue);
+        }
+
+        .section-text{
+            max-width:580px;
+            color:var(--soft);
+            line-height:1.7;
+            font-size:16px;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:22px;
+        }
+
+        .card{
+            position:relative;
+            min-height:310px;
+            padding:28px;
+            border-radius:30px;
+            background:linear-gradient(160deg,rgba(15,23,42,.86),rgba(2,6,23,.74));
+            border:1px solid rgba(148,163,184,.15);
+            box-shadow:0 20px 60px rgba(0,0,0,.28);
+            overflow:hidden;
+            transition:.35s;
+        }
+
+        .card::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(120deg,transparent,rgba(56,189,248,.08),transparent);
+            transform:translateX(-110%);
+            transition:.7s;
+        }
+
+        .card:hover::before{
+            transform:translateX(110%);
+        }
+
+        .card:hover{
+            transform:translateY(-9px);
+            border-color:rgba(56,189,248,.42);
+            box-shadow:0 28px 80px rgba(0,0,0,.38), 0 0 35px rgba(56,189,248,.10);
+        }
+
+        .icon{
+            width:74px;
+            height:74px;
+            border-radius:22px;
+            display:grid;
+            place-items:center;
+            background:rgba(56,189,248,.10);
+            border:1px solid rgba(56,189,248,.20);
+            margin-bottom:24px;
+            overflow:hidden;
+        }
+
+        .icon img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
+
+        .card h3{
+            position:relative;
+            z-index:1;
+            font-size:25px;
+            color:white;
+            line-height:1.15;
+            margin-bottom:15px;
+            letter-spacing:-.7px;
+        }
+
+        .card p{
+            position:relative;
+            z-index:1;
+            color:var(--soft);
+            line-height:1.75;
+            font-size:15px;
+        }
+
+        .card-tag{
+            position:absolute;
+            right:22px;
+            top:22px;
+            padding:7px 11px;
+            border-radius:999px;
+            color:#7dd3fc;
+            background:rgba(56,189,248,.10);
+            border:1px solid rgba(56,189,248,.18);
+            font-size:12px;
+            font-weight:900;
+        }
+
+        .tech-panel{
+            padding:28px;
+            border-radius:30px;
+            background:rgba(15,23,42,.67);
+            border:1px solid rgba(148,163,184,.15);
+            box-shadow:0 20px 70px rgba(0,0,0,.25);
+            backdrop-filter:blur(18px);
+        }
+
+        .tech{
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+
+        .tech span{
+            padding:12px 17px;
+            border-radius:14px;
+            background:rgba(2,6,23,.72);
+            border:1px solid rgba(56,189,248,.18);
+            color:#bae6fd;
+            font-weight:900;
+            font-size:13px;
+            transition:.28s;
+        }
+
+        .tech span:hover{
+            transform:translateY(-4px);
+            background:rgba(56,189,248,.11);
+            border-color:rgba(56,189,248,.40);
+            color:white;
+        }
+
+        .cta{
+            max-width:1180px;
+            margin:62px auto 0;
+            padding:34px;
+            border-radius:34px;
+            background:
+                linear-gradient(135deg,rgba(14,165,233,.18),rgba(37,99,235,.10)),
+                rgba(15,23,42,.70);
+            border:1px solid rgba(56,189,248,.22);
+            box-shadow:0 25px 80px rgba(0,0,0,.33);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:22px;
+        }
+
+        .cta h2{
+            font-size:32px;
+            line-height:1.15;
+            letter-spacing:-1px;
+            margin-bottom:8px;
+        }
+
+        .cta p{
+            color:var(--soft);
+            line-height:1.6;
+        }
+
+        .footer{
+            position:relative;
+            z-index:2;
+            text-align:center;
+            padding:28px 20px;
+            color:var(--muted);
+            border-top:1px solid rgba(148,163,184,.12);
+            background:rgba(2,6,23,.78);
+            backdrop-filter:blur(14px);
+            margin-top:36px;
+        }
+
+        @media(max-width:980px){
+            .hero{
+                grid-template-columns:1fr;
+                min-height:auto;
+            }
+
+            h1{
+                font-size:56px;
+            }
+
+            .cards{
+                grid-template-columns:1fr;
+            }
+
+            .section-head,
+            .cta{
+                align-items:flex-start;
+                flex-direction:column;
+            }
+
+            .hero-points{
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media(max-width:720px){
+            .container{
+                padding:16px 14px 34px;
+            }
+
+            .topbar{
+                align-items:flex-start;
+                flex-direction:column;
+                border-radius:22px;
+            }
+
+            .nav-actions{
+                width:100%;
+                justify-content:flex-start;
+            }
+
+            .nav-link{
+                display:none;
+            }
+
+            h1{
+                font-size:43px;
+                letter-spacing:-1.7px;
+            }
+
+            .subtitle{
+                font-size:16px;
+            }
+
+            .buttons{
+                flex-direction:column;
+            }
+
+            .btn{
+                width:100%;
+            }
+
+            .profile-top{
+                flex-direction:column;
+                text-align:center;
+            }
+
+            .foto{
+                width:145px;
+                height:145px;
+                border-radius:50%;
+            }
+
+            .status{
+                grid-template-columns:1fr;
+            }
+
+            .section{
+                margin-top:46px;
+            }
+
+            .section-title{
+                font-size:32px;
+            }
+
+            .card,
+            .tech-panel,
+            .cta,
+            .profile-card{
+                border-radius:24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-icon">IT</div>
+                <div>
+                    Ivan<span>Tech</span>
+                </div>
+            </div>
+
+            <nav class="nav-actions">
+                <a href="{% url 'projetos' %}" class="nav-link">Projetos</a>
+                <a href="#tecnologias" class="nav-link">Tecnologias</a>
+                <a href="{% url 'sobre' %}" class="nav-link">Sobre</a>
+                <a href="https://wa.me/5574991368710" target="_blank" class="contact-mini">Falar no WhatsApp</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="badge">Desenvolvedor Full Stack • Sistemas Web • IA</span>
+
+                <h1>
+                    Soluções digitais
+                    <span>modernas e escaláveis.</span>
+                </h1>
+
+                <p class="subtitle">
+                    Desenvolvimento de sistemas web, automações inteligentes,
+                    dashboards, ERPs, PDVs e soluções com inteligência artificial
+                    para empresas que desejam organizar processos e crescer com tecnologia.
+                </p>
+
+                <div class="buttons">
+                    <a href="{% url 'projetos' %}" class="btn btn-primary">Ver Projetos</a>
+                    <a href="https://wa.me/5574991368710" target="_blank" class="btn btn-secondary">Solicitar Orçamento</a>
+                    <a href="{% url 'sobre' %}" class="btn btn-secondary">Sobre Mim</a>
+                </div>
+
+                <div class="hero-points">
+                    <div class="point">
+                        <strong>Sistemas sob medida</strong>
+                        <span>Projetos criados conforme a necessidade do negócio.</span>
+                    </div>
+
+                    <div class="point">
+                        <strong>Automação</strong>
+                        <span>Redução de tarefas manuais e ganho de produtividade.</span>
+                    </div>
+
+                    <div class="point">
+                        <strong>Dados e IA</strong>
+                        <span>Relatórios, dashboards e soluções inteligentes.</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="profile-card">
+                <div class="profile-top">
+                    <div class="foto">
+                        <img src="{% static 'img/ivan.jpeg' %}" alt="Foto de Ivan">
+                    </div>
+
+                    <div class="profile-name">
+                        <h2>Ivan Ualax</h2>
+                        <p>Formado em Analise e Desenvolvimento De Sistemas</p>
+                    </div>
+                </div>
+
+                <p class="profile-text">
+                    Atuo na criação de sistemas profissionais com foco em performance,
+                    organização, segurança e experiência do usuário. Desenvolvo soluções
+                    práticas para empresas, gestão pública e pequenos negócios.
+                </p>
+
+                <div class="status">
+                    <div>
+                        <strong>3+</strong>
+                        <span>Projetos</span>
+                    </div>
+                    <div>
+                        <strong>Web</strong>
+                        <span>Sistemas</span>
+                    </div>
+                    <div>
+                        <strong>IA</strong>
+                        <span>Automação</span>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <a href="https://wa.me/5574991368710" target="_blank">
+                        <span>WhatsApp</span>
+                        <span>→</span>
+                    </a>
+
+                    <a href="mailto:contatrabalhoo2015@gmail.com">
+                        <span>Email</span>
+                        <span>→</span>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/ivan-ualax-93161a248/?skipRedirect=true" target="_blank">
+                        <span>LinkedIn</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </aside>
+        </section>
+
+        <section class="section">
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Projetos <span>em destaque</span></h2>
+                </div>
+
+                <p class="section-text">
+                    Sistemas desenvolvidos para resolver problemas reais,
+                    organizar informações, automatizar processos e melhorar a gestão.
+                </p>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <span class="card-tag">Educação</span>
+                    <div class="icon">
+                        <img src="{% static 'img/educa.png' %}" alt="Sistema Escolar">
+                    </div>
+                    <h3>Sistema Educacional</h3>
+                    <p>
+                        Plataforma para gestão de funcionários, escolas, horas extras,
+                        faltas, registros administrativos e exportação de relatórios.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">Empresas</span>
+                    <div class="icon">
+                        <img src="{% static 'img/ERP.jpg' %}" alt="ERP Empresarial">
+                    </div>
+                    <h3>ERP Empresarial com PDV</h3>
+                    <p>
+                        Sistema para controle financeiro, clientes, estoque, vendas,
+                        compras, parcelas, caixa e relatórios gerenciais.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">IA</span>
+                    <div class="icon">
+                        <img src="{% static 'img/IA.png' %}" alt="Inteligência Artificial">
+                    </div>
+                    <h3>Automação com IA</h3>
+                    <p>
+                        Soluções inteligentes para automatizar tarefas, gerar documentos,
+                        organizar dados e aumentar a produtividade de empresas.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="tecnologias">
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Tecnologias <span>utilizadas</span></h2>
+                </div>
+
+                <p class="section-text">
+                    Ferramentas usadas no desenvolvimento de sistemas modernos,
+                    seguros e preparados para crescimento.
+                </p>
+            </div>
+
+            <div class="tech-panel">
+                <div class="tech">
+                    <span>Python</span>
+                    <span>Django</span>
+                    <span>JavaScript</span>
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>SQL</span>
+                    <span>SQLite</span>
+                    <span>PostgreSQL</span>
+                    <span>Git</span>
+                    <span>GitHub</span>
+                    <span>Dashboards</span>
+                    <span>Automação</span>
+                    <span>Inteligência Artificial</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div>
+                <h2>Precisa de um sistema para sua empresa?</h2>
+                <p>
+                    Transforme processos manuais em sistemas organizados,
+                    rápidos e profissionais com a IvanTech.
+                </p>
+            </div>
+
+            <a href="https://wa.me/5574991368710" target="_blank" class="btn btn-primary">Entrar em contato</a>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 IvanTech - Desenvolvimento de Sistemas, Automação e Inteligência Artificial</p>
+    </footer>
+
+</body>
+</html>

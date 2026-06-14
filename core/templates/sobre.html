@@ -1,0 +1,403 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Mim | Ivan Mendes</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:
+            radial-gradient(circle at top left, rgba(56,189,248,0.15), transparent 30%),
+            radial-gradient(circle at bottom right, rgba(14,165,233,0.15), transparent 30%),
+            #020617;
+
+            color:white;
+            min-height:100vh;
+        }
+
+        body::before{
+            content:"";
+            position:fixed;
+            inset:0;
+            background-image:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+
+            background-size:45px 45px;
+            pointer-events:none;
+        }
+
+        .container{
+            width:100%;
+            max-width:1200px;
+            margin:auto;
+            padding:40px 20px;
+            position:relative;
+            z-index:2;
+        }
+
+        .topo{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:70px;
+            flex-wrap:wrap;
+            gap:20px;
+        }
+
+        .logo{
+            font-size:30px;
+            font-weight:900;
+        }
+
+        .logo span{
+            color:#38bdf8;
+        }
+
+        .menu{
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        .menu a{
+            text-decoration:none;
+            color:#cbd5e1;
+            transition:0.3s;
+            font-weight:bold;
+        }
+
+        .menu a:hover{
+            color:#38bdf8;
+        }
+
+        .hero{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:50px;
+            align-items:center;
+        }
+
+        .foto-box{
+            display:flex;
+            justify-content:center;
+        }
+
+        .foto{
+            width:220px;
+            height:220px;
+            border-radius:30px;
+            overflow:hidden;
+            border:3px solid #38bdf8;
+            box-shadow:0 0 40px rgba(56,189,248,0.35);
+        }
+
+        .foto img{
+            width: 215px;;
+            height: 240px;;
+            object-fit:cover;
+        }
+
+        .info h1{
+            font-size:60px;
+            margin-bottom:20px;
+            line-height:1.1;
+        }
+
+        .info h1 span{
+            color:#38bdf8;
+        }
+
+        .descricao{
+            color:#cbd5e1;
+            line-height:1.9;
+            font-size:18px;
+            margin-bottom:30px;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:20px;
+            margin-top:35px;
+        }
+
+        .card{
+            background:rgba(15,23,42,0.85);
+            border:1px solid rgba(255,255,255,0.08);
+            border-radius:20px;
+            padding:25px;
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-8px);
+            border-color:#38bdf8;
+        }
+
+        .card h3{
+            color:#38bdf8;
+            margin-bottom:12px;
+            font-size:20px;
+        }
+
+        .card p{
+            color:#cbd5e1;
+            line-height:1.7;
+            font-size:14px;
+        }
+
+        .skills{
+            margin-top:80px;
+        }
+
+        .skills h2{
+            text-align:center;
+            font-size:40px;
+            margin-bottom:40px;
+        }
+
+        .skills h2 span{
+            color:#38bdf8;
+        }
+
+        .tech{
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        .tech span{
+            background:#0f172a;
+            padding:14px 22px;
+            border-radius:12px;
+            border:1px solid rgba(56,189,248,0.25);
+            color:#38bdf8;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .tech span:hover{
+            transform:translateY(-5px);
+            background:rgba(14,165,233,0.15);
+        }
+
+        .btns{
+            margin-top:35px;
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            padding:15px 28px;
+            border-radius:14px;
+            text-decoration:none;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .btn-primary{
+            background:#0ea5e9;
+            color:white;
+            box-shadow:0 10px 30px rgba(14,165,233,0.35);
+        }
+
+        .btn-secondary{
+            border:1px solid rgba(56,189,248,0.35);
+            color:#38bdf8;
+            background:rgba(15,23,42,0.7);
+        }
+
+        .btn:hover{
+            transform:translateY(-5px);
+        }
+
+        footer{
+            margin-top:90px;
+            padding-top:30px;
+            border-top:1px solid rgba(255,255,255,0.08);
+            text-align:center;
+            color:#94a3b8;
+        }
+
+        @media(max-width:950px){
+
+            .hero{
+                grid-template-columns:1fr;
+                text-align:center;
+            }
+
+            .cards{
+                grid-template-columns:1fr;
+            }
+
+            .btns{
+                justify-content:center;
+            }
+
+            .info h1{
+                font-size:45px;
+            }
+
+        }
+
+        @media(max-width:500px){
+
+            .foto{
+                width:200px;
+                height:200px;
+            }
+
+            .info h1{
+                font-size:38px;
+            }
+
+            .descricao{
+                font-size:16px;
+            }
+
+            .skills h2{
+                font-size:30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="topo">
+
+            <div class="logo">
+                Ivan<span>Tech</span>
+            </div>
+
+            <nav class="menu">
+                <a href="/">Home</a>
+                <a href="{% url 'projetos' %}">Projetos</a>
+                <a href="#">Contato</a>
+            </nav>
+
+        </header>
+
+        <section class="hero">
+
+            <div class="foto-box">
+
+                <div class="foto">
+                    <img src="{% static 'img/ivan.jpeg' %}" alt="Ivan Mendes">
+                </div>
+
+            </div>
+
+            <div class="info">
+
+                <h1>
+                    Sobre <span>Mim</span>
+                </h1>
+
+                <p class="descricao">
+                    Sou Analista de Sistemas formado em ADS, focado no desenvolvimento de sistemas web, soluções corporativas, automações inteligentes e tecnologias 
+                    voltadas para empresas, gestão pública e setor educacional. Tenho experiência na criação de plataformas modernas utilizando Python, Django, JavaScript e banco de dados, buscando sempre desenvolver sistemas organizados, eficientes e escaláveis para resolver problemas reais através da tecnologia. Atualmente venho desenvolvendo projetos próprios, como sistemas ERP, plataformas educacionais e soluções com inteligência artificial, aplicando na prática conceitos de desenvolvimento Full Stack, organização de processos e experiência do usuário. Tenho perfil analítico, visão sistêmica e facilidade para transformar necessidades do dia a dia em soluções tecnológicas funcionais e intuitivas. Estou constantemente buscando evolução profissional, aprimorando conhecimentos em desenvolvimento web, arquitetura de sistemas, automações e inteligência artificial, com foco em criar soluções modernas, práticas e de alto impacto.
+                </p>
+
+                <div class="btns">
+
+                    <a href="{% url 'projetos' %}" class="btn btn-primary">
+                        Ver Projetos
+                    </a>
+
+                    <a href="/" class="btn btn-secondary">
+                        Voltar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="cards">
+
+            <div class="card">
+
+                <h3>Desenvolvimento Web</h3>
+
+                <p>
+                    Criação de sistemas modernos, plataformas web,
+                    dashboards administrativos e aplicações responsivas.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Automações</h3>
+
+                <p>
+                    Desenvolvimento de automações inteligentes para
+                    otimização de processos e produtividade.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Inteligência Artificial</h3>
+
+                <p>
+                    Aplicação de IA em sistemas, geração de conteúdo,
+                    automações e soluções inteligentes.
+                </p>
+
+            </div>
+
+        </section>
+
+        <section class="skills">
+
+            <h2>
+                Tecnologias <span>Utilizadas</span>
+            </h2>
+
+            <div class="tech">
+
+                <span>Python</span>
+                <span>Django</span>
+                <span>JavaScript</span>
+                <span>HTML5</span>
+                <span>CSS3</span>
+                <span>SQL</span>
+                <span>Git</span>
+                <span>GitHub</span>
+                <span>API</span>
+                <span>IA</span>
+
+            </div>
+
+        </section>
+
+        <footer>
+            © 2026 Ivan Mendes - Todos os direitos reservados
+        </footer>
+
+    </div>
+
+</body>
+</html>
